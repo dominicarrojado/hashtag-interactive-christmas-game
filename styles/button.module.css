@@ -1,0 +1,25 @@
+.btn {
+  display: inline-block;
+  box-shadow: 2px 2px 0 0 var(--black-faded), 4px 4px 0 0 var(--black-faded),
+    6px 6px 0 0 var(--black-faded);
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--black);
+  color: var(--gold);
+  padding: 18px 40px 17px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  transform: translate(-6px, -6px) skewX(-10deg);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+}
+
+.btn:active {
+  transform: translate(0) skewX(-10deg);
+  box-shadow: none;
+}

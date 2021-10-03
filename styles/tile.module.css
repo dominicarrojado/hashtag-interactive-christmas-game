@@ -1,0 +1,46 @@
+.tile {
+  width: 50px;
+  height: 70px;
+  box-shadow: 2px 2px 0 0 var(--black-faded), 4px 4px 0 0 var(--black-faded),
+    6px 6px 0 0 var(--black-faded);
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--black);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  transform: translate(-6px, -6px) skewX(-10deg);
+}
+
+.tile:not(:last-child) {
+  margin-right: 20px;
+}
+
+.tile:active,
+.tile:disabled {
+  transform: translate(0) skewX(-10deg);
+  box-shadow: none;
+}
+
+.tile:disabled {
+  pointer-events: none;
+}
+
+.tile.active {
+  box-shadow: 2px 2px 0 0 var(--white-faded), 4px 4px 0 0 var(--white-faded),
+    6px 6px 0 0 var(--white-faded);
+  background-color: var(--white);
+  transform: translate(-6px, -6px) skewX(-10deg);
+}
+
+@media screen and (min-width: 400px) {
+  .tile {
+    width: 60px;
+    height: 90px;
+  }
+
+  .tile:not(:last-child) {
+    margin-right: 30px;
+  }
+}

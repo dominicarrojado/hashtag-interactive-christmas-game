@@ -43,3 +43,14 @@ End Josefin Slab
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
+
+html,
+body,
+body > div:first-child {
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

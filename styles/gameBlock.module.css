@@ -1,0 +1,12 @@
+.gameBlock {
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+  background-color: var(--gold);
+}
+
+@media screen and (min-width: 400px) {
+  .gameBlock {
+    min-height: 700px;
+  }
+}

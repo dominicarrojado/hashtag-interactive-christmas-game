@@ -1,0 +1,34 @@
+.infoBlock {
+  background-color: var(--black);
+  background-image: url('/images/bg-starry-christmas.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+}
+
+.companyLogo {
+  display: inline-block;
+  padding: 5px;
+  outline: none;
+  user-select: none;
+}
+
+.infoBlockTitle {
+  margin-top: 55px;
+  margin-bottom: 0;
+  user-select: none;
+}
+
+.infoBlockText {
+  margin-top: 30px;
+  color: var(--white);
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@media screen and (min-width: 400px) {
+  .infoBlockText {
+    font-size: 22px;
+  }
+}

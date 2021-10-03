@@ -1,0 +1,112 @@
+.gameMain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.gameStatus {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  border-radius: 8px;
+  background-color: var(--white);
+  padding: 15px 12px 12px;
+  color: var(--gold);
+  font-size: 30px;
+  line-height: 1;
+  text-align: center;
+  user-select: none;
+}
+
+.gameRetry {
+  display: inline-block;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gameRetry:hover {
+  text-decoration: underline;
+}
+
+.gameTiles {
+  margin-top: 70px;
+}
+
+.gameRow {
+  display: flex;
+  justify-content: center;
+}
+
+.gameRow:not(:first-child) {
+  margin-top: 20px;
+}
+
+.gameRow:first-child {
+  margin-left: 32px;
+}
+
+.gameRow:last-child {
+  margin-right: 32px;
+}
+
+.gameRow:first-child .tileSpecial {
+  margin-top: -15px;
+  margin-left: 15px;
+  margin-right: -15px;
+}
+
+.gameScore {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 200px;
+  border-radius: 8px;
+  margin: 60px auto 0;
+  background-color: var(--gold-faded);
+  padding: 18px 20px 15px;
+  color: var(--black);
+  font-size: 20px;
+  line-height: 1;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.gameScoreValue {
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+@media screen and (min-width: 400px) {
+  .gameStatus {
+    font-size: 35px;
+  }
+
+  .gameRow:first-child {
+    margin-left: 42px;
+  }
+
+  .gameRow:last-child {
+    margin-right: 42px;
+  }
+
+  .gameRow:first-child .tileSpecial {
+    margin-top: -20px;
+    margin-left: 20px;
+    margin-right: -20px;
+  }
+
+  .gameScore {
+    font-size: 22px;
+  }
+}
