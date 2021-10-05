@@ -3,7 +3,7 @@ import GameStart from './gameStart';
 import GameMain from './gameMain';
 import { BUTTON_CLICK_DELAY } from '../lib/constants';
 import styles from '../styles/gameBlock.module.css';
-import homeStyles from '../styles/home.module.css';
+import layoutStyles from '../styles/layout.module.css';
 
 function GameBlock() {
   const [gameStarted, setGameStarted] = useState(false);
@@ -14,7 +14,7 @@ function GameBlock() {
   };
 
   return (
-    <section className={`${styles.gameBlock} ${homeStyles.block}`}>
+    <section className={`${styles.gameBlock} ${layoutStyles.block}`}>
       {!gameStarted ? <GameStart btnOnClick={btnOnClick} /> : <GameMain />}
     </section>
   );

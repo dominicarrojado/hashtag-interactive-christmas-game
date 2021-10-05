@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from '../styles/infoBlock.module.css';
-import homeStyles from '../styles/home.module.css';
+import layoutStyles from '../styles/layout.module.css';
 
 function InfoBlock() {
   return (
-    <section className={`${styles.infoBlock} ${homeStyles.block}`}>
+    <section className={`${styles.infoBlock} ${layoutStyles.block}`}>
       <div>
         <a href="/hashtag-interactive-website/" className={styles.companyLogo}>
           <img

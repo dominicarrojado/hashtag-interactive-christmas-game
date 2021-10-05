@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
 import PreLoadTags from './preLoadTags';
+import styles from '../styles/layout.module.css';
 
 function Layout({ children }: { children: ReactNode }) {
   return (
@@ -45,7 +46,7 @@ function Layout({ children }: { children: ReactNode }) {
       />
       {/* End Google Tag Manager */}
 
-      {children}
+      <div className={styles.container}>{children}</div>
     </>
   );
 }
