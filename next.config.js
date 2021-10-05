@@ -2,5 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   trailingSlash: true,
-  pageExtensions: ["page.tsx"],
+  pageExtensions: ['page.tsx'],
+  basePath: '/hashtag-interactive-christmas-game',
 };
