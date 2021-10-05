@@ -2,7 +2,7 @@ name: CI/CD
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
 
 jobs:
   build:
@@ -72,3 +72,11 @@ jobs:
           user_email: 'github-actions[bot]@users.noreply.github.com'
           github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
           repository: ${{ github.repository }}
+
+      - name: Merge gh-pages -> main
+        uses: devmasx/merge-branch@v1.3.1
+        with:
+          type: now
+          from_branch: gh-pages
+          target_branch: main
+          github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
