@@ -4,6 +4,10 @@ import * as InfoBlock from '../../components/infoBlock';
 import Home from '../index.page';
 
 describe('<Home />', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should render the block components', () => {
     const infoBlockSpy = jest.spyOn(InfoBlock, 'default');
     const gameBlockSpy = jest.spyOn(GameBlock, 'default');

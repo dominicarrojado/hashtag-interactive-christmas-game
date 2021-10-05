@@ -3,12 +3,30 @@ import { getFakeWord } from '../../lib/test-helpers';
 import Tile from '../tile';
 
 describe('<Tile />', () => {
-  it('should accept active prop', () => {
-    const { container } = render(<Tile active />);
+  describe('active prop', () => {
+    it('should have expected attribute if undefined', () => {
+      const { container } = render(<Tile />);
 
-    const btnEl = container.firstChild as HTMLButtonElement;
+      const btnEl = container.firstChild as HTMLButtonElement;
 
-    expect(btnEl.tagName).toBe('BUTTON');
+      expect(btnEl).toHaveAttribute('data-active', '0');
+    });
+
+    it('should have expected attribute if false', () => {
+      const { container } = render(<Tile active={false} />);
+
+      const btnEl = container.firstChild as HTMLButtonElement;
+
+      expect(btnEl).toHaveAttribute('data-active', '0');
+    });
+
+    it('should have expected attribute if true', () => {
+      const { container } = render(<Tile active />);
+
+      const btnEl = container.firstChild as HTMLButtonElement;
+
+      expect(btnEl).toHaveAttribute('data-active', '1');
+    });
   });
 
   it('should accept className prop', () => {

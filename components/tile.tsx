@@ -14,6 +14,7 @@ function Tile({
       className={`${styles.tile} ${active ? styles.active : ''} ${
         className || ''
       }`}
+      data-active={active ? '1' : '0'}
     />
   );
 }
