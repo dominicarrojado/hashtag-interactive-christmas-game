@@ -1,6 +1,6 @@
 # Dominic Arrojado - Tech Blog
 
-![CI/CD](https://github.com/dominicarrojado/hashtag-interactive-christmas-game/workflows/CI/CD/badge.svg)
+![CI/CD](https://github.com/dominicarrojado/hashtag-interactive-christmas-game/workflows/CI/CD/badge.svg) [![codecov](https://codecov.io/github/dominicarrojado/hashtag-interactive-christmas-game/branch/main/graph/badge.svg?token=401EVXONJS)](https://codecov.io/github/dominicarrojado/hashtag-interactive-christmas-game)
 
 A static tech blog website built with [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/).
 
