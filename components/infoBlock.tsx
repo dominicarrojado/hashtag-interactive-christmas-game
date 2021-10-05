@@ -1,14 +1,22 @@
 import React from 'react';
+import { getAssetUrl } from '../lib/assets';
 import styles from '../styles/infoBlock.module.css';
 import layoutStyles from '../styles/layout.module.css';
 
 function InfoBlock() {
   return (
-    <section className={`${styles.infoBlock} ${layoutStyles.block}`}>
+    <section
+      className={`${styles.infoBlock} ${layoutStyles.block}`}
+      style={{
+        backgroundImage: `url(${getAssetUrl(
+          '/images/bg-starry-christmas.png'
+        )})`,
+      }}
+    >
       <div>
         <a href="/hashtag-interactive-website/" className={styles.companyLogo}>
           <img
-            src="/images/logo-hashtag-interactive.png"
+            src={getAssetUrl('/images/logo-hashtag-interactive.png')}
             alt="Hashtag Interactive logo"
             width="115"
             height="31"
@@ -18,7 +26,7 @@ function InfoBlock() {
       </div>
       <h1 className={styles.infoBlockTitle}>
         <img
-          src="/images/logo-holly-jolly-memory-game.png"
+          src={getAssetUrl('/images/logo-holly-jolly-memory-game.png')}
           alt="Holly Jolly Memory Game logo"
           width="459"
           height="145"

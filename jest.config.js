@@ -7,5 +7,8 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
-  coveragePathIgnorePatterns: ['<rootDir>/lib/test-helpers.ts'],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/lib/test-helpers.ts',
+    '<rootDir>/pages/_document.page.tsx',
+  ],
 };

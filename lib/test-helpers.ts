@@ -39,3 +39,7 @@ export function getFakeSentence() {
 export function getFakeSentences() {
   return faker.lorem.sentences();
 }
+
+export function getFakeDirectoryPath() {
+  return faker.system.directoryPath();
+}
