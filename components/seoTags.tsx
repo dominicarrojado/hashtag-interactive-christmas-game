@@ -23,7 +23,7 @@ function SeoTags() {
       <meta name="author" content={MAIN_AUTHOR} />
       <link rel="canonical" href={MAIN_URL} />
       <link rel="icon" href={`${MAIN_ORIGIN}/favicon.ico`} />
-      <link rel="manifest" href={`${MAIN_ORIGIN}manifest.json`} />
+      <link rel="manifest" href={`${MAIN_ORIGIN}/manifest.json`} />
       <meta property="og:locale" content="en_US" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={MAIN_TITLE} />
