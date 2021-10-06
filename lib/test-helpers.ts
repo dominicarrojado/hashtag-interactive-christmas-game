@@ -20,10 +20,6 @@ export function getFakeNumber<T = GetFakeNumber>(data?: T) {
   return faker.datatype.number(data);
 }
 
-export function getFakeBoolean() {
-  return faker.datatype.boolean();
-}
-
 export function getFakeString() {
   return faker.datatype.string();
 }
@@ -42,4 +38,8 @@ export function getFakeSentences() {
 
 export function getFakeDirectoryPath() {
   return faker.system.directoryPath();
+}
+
+export function getFakeDomainWord() {
+  return faker.internet.domainWord();
 }

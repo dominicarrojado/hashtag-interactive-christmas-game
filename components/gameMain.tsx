@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getRefValue } from '../lib/hooks';
 import { getRandomNumber } from '../lib/random';
+import { trackEvent } from '../lib/google-analytics';
 import Tile from './tile';
+import { GoogleAnalyticsEvents } from '../lib/types';
 import {
   COUNTDOWN_SPEED,
   PATTERNS_DISPLAY_SPEED,
+  POINTS_PER_TILE,
+  PROJECT_TITLE,
   SUCCESS_TEXTS,
   SUCCESS_TEXTS_COUNT,
 } from '../lib/constants';
@@ -74,7 +78,7 @@ function GameMain() {
       }
     }, COUNTDOWN_SPEED);
   };
-  const restartGame = () => {
+  const restartGame = (isManual: boolean) => {
     patternsRef.current = [];
     setActiveTile(-1);
     setIsGameOver(false);
@@ -83,6 +87,13 @@ function GameMain() {
 
     // scroll down to bottom for mobile
     window.scrollTo(0, document.body.scrollHeight);
+
+    if (isManual) {
+      trackEvent({
+        event: GoogleAnalyticsEvents.GAME_RESTART,
+        projectTitle: PROJECT_TITLE,
+      });
+    }
   };
   const updateSuccessText = () => {
     const successIdx = getRandomNumber(0, SUCCESS_TEXTS_COUNT - 1);
@@ -101,7 +112,7 @@ function GameMain() {
 
     if (patterns[playerIdx] === tile) {
       updateSuccessText();
-      setScore((value) => value + 10);
+      setScore((value) => value + POINTS_PER_TILE);
 
       if (playerIdx === patterns.length - 1) {
         isTransitioningRef.current = true;
@@ -117,11 +128,17 @@ function GameMain() {
       setIsGameOver(true);
       setIsPlayersTurn(false);
       setInfo('Wrong!');
+
+      trackEvent({
+        event: GoogleAnalyticsEvents.GAME_END_AUTO,
+        projectTitle: PROJECT_TITLE,
+        gameScore: score,
+      });
     }
   };
 
   useEffect(() => {
-    restartGame();
+    restartGame(false);
 
     return () => {
       window.clearInterval(getRefValue(intervalRef));
@@ -141,7 +158,7 @@ function GameMain() {
             <button
               type="button"
               className={styles.gameRetry}
-              onClick={restartGame}
+              onClick={() => restartGame(true)}
             >
               Play again?
             </button>

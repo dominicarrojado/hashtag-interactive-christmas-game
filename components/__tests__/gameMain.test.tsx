@@ -1,12 +1,45 @@
 import { fireEvent, act, render, screen } from '@testing-library/react';
 import { getFakeNumber, setReadOnlyProperty } from '../../lib/test-helpers';
-import { COUNTDOWN_SPEED, PATTERNS_DISPLAY_SPEED } from '../../lib/constants';
+import { GoogleAnalyticsEvents } from '../../lib/types';
+import {
+  COUNTDOWN_SPEED,
+  PATTERNS_DISPLAY_SPEED,
+  POINTS_PER_TILE,
+  PROJECT_TITLE,
+} from '../../lib/constants';
 import * as random from '../../lib/random';
+import * as ga from '../../lib/google-analytics';
 import GameMain from '../gameMain';
 
 jest.useFakeTimers();
 
 describe('<GameMain />', () => {
+  const skipCountdown = () => {
+    act(() => {
+      jest.advanceTimersByTime(COUNTDOWN_SPEED); // 3
+      jest.advanceTimersByTime(COUNTDOWN_SPEED); // 2
+      jest.advanceTimersByTime(COUNTDOWN_SPEED); // 1
+      jest.advanceTimersByTime(COUNTDOWN_SPEED); // 0
+    });
+  };
+  const skipPatternsDisplay = (numOfPatterns: number) => {
+    act(() => {
+      // transitioning
+      if (numOfPatterns !== 1) {
+        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
+      }
+
+      // showing pattern "i"
+      for (let i = 0; i < numOfPatterns; i++) {
+        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
+        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
+      }
+
+      // transitioning
+      jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
+    });
+  };
+
   beforeEach(() => {
     window.scrollTo = jest.fn();
   });
@@ -86,13 +119,7 @@ describe('<GameMain />', () => {
     it('should display dots', () => {
       render(<GameMain />);
 
-      act(() => {
-        // countdown
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-      });
+      skipCountdown();
 
       const infoEl = screen.queryByTestId('info');
 
@@ -106,14 +133,10 @@ describe('<GameMain />', () => {
 
       render(<GameMain />);
 
-      act(() => {
-        // countdown
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
+      skipCountdown();
 
-        // showing pattern 1 (shown)
+      // showing pattern 1
+      act(() => {
         jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
       });
 
@@ -130,11 +153,18 @@ describe('<GameMain />', () => {
         expect(tileEl).toBeDisabled();
       });
 
+      // hiding pattern 1
       act(() => {
-        // showing pattern 1 (hidden)
         jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
+      });
 
-        // transitioning
+      tiles.forEach((tileEl) => {
+        expect(tileEl).toHaveAttribute('data-active', '0');
+        expect(tileEl).toBeDisabled();
+      });
+
+      // transitioning
+      act(() => {
         jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
       });
 
@@ -148,40 +178,28 @@ describe('<GameMain />', () => {
       });
     });
 
-    it('should handle clicks during transitioning', () => {
+    it('should handle extra clicks during transitioning', () => {
       const randomIdx = getFakeNumber({ min: 0, max: 8 });
 
       jest.spyOn(random, 'getRandomNumber').mockReturnValue(randomIdx);
 
       render(<GameMain />);
 
-      act(() => {
-        // countdown
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-
-        // showing pattern 1
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-
-        // transitioning
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-      });
+      skipCountdown();
+      skipPatternsDisplay(1);
 
       const tiles = screen.queryAllByTestId('tile');
 
       expect(tiles).toHaveLength(9);
 
       fireEvent.click(tiles[randomIdx]);
-      fireEvent.click(tiles[randomIdx]);
+      fireEvent.click(tiles[randomIdx]); // extra click
 
       const infoEl = screen.queryByTestId('info');
       const scoreEl = screen.queryByTestId('score');
 
       expect(infoEl).not.toHaveTextContent('Wrong!');
-      expect(scoreEl).toHaveTextContent('10');
+      expect(scoreEl).toHaveTextContent(POINTS_PER_TILE.toString());
     });
 
     it('should continue if correct tile is clicked', () => {
@@ -191,20 +209,8 @@ describe('<GameMain />', () => {
 
       render(<GameMain />);
 
-      act(() => {
-        // countdown
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-
-        // showing pattern 1
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-
-        // transitioning
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-      });
+      skipCountdown();
+      skipPatternsDisplay(1);
 
       const tiles = screen.queryAllByTestId('tile');
 
@@ -216,28 +222,14 @@ describe('<GameMain />', () => {
       const scoreEl = screen.queryByTestId('score');
 
       expect(infoEl).not.toHaveTextContent('Wrong!');
-      expect(scoreEl).toHaveTextContent('10');
+      expect(scoreEl).toHaveTextContent(POINTS_PER_TILE.toString());
 
-      act(() => {
-        // transitioning
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-
-        // showing pattern 1
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-
-        // showing pattern 2
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-
-        // transitioning
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-      });
+      skipPatternsDisplay(2);
 
       fireEvent.click(tiles[randomIdx]);
 
       expect(infoEl).not.toHaveTextContent('Wrong!');
-      expect(scoreEl).toHaveTextContent('20');
+      expect(scoreEl).toHaveTextContent((POINTS_PER_TILE * 2).toString());
     });
 
     it('should be game over if wrong tile is clicked', () => {
@@ -248,20 +240,8 @@ describe('<GameMain />', () => {
 
       render(<GameMain />);
 
-      act(() => {
-        // countdown
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-        jest.advanceTimersByTime(COUNTDOWN_SPEED);
-
-        // showing pattern 1
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-
-        // transitioning
-        jest.advanceTimersByTime(PATTERNS_DISPLAY_SPEED);
-      });
+      skipCountdown();
+      skipPatternsDisplay(1);
 
       const tiles = screen.queryAllByTestId('tile');
 
@@ -287,6 +267,89 @@ describe('<GameMain />', () => {
           expect(tileEl).toHaveAttribute('data-active', '0');
         }
         expect(tileEl).toBeDisabled();
+      });
+    });
+  });
+
+  describe('analytics', () => {
+    it('should NOT track event on mount (game auto start)', () => {
+      const trackEventSpy = jest.spyOn(ga, 'trackEvent');
+
+      render(<GameMain />);
+
+      expect(trackEventSpy).not.toBeCalled();
+    });
+
+    it('should track event on game over', () => {
+      const wrongTileIdx = 0;
+      const randomIdx = getFakeNumber({ min: wrongTileIdx + 1, max: 8 });
+
+      jest.spyOn(random, 'getRandomNumber').mockReturnValue(randomIdx);
+
+      const trackEventSpy = jest.spyOn(ga, 'trackEvent');
+
+      render(<GameMain />);
+
+      skipCountdown();
+      skipPatternsDisplay(1);
+
+      const tiles = screen.queryAllByTestId('tile');
+
+      expect(tiles).toHaveLength(9);
+
+      fireEvent.click(tiles[randomIdx]);
+
+      skipPatternsDisplay(2);
+
+      fireEvent.click(tiles[randomIdx]);
+
+      skipPatternsDisplay(3);
+
+      fireEvent.click(tiles[randomIdx]);
+
+      skipPatternsDisplay(4);
+
+      fireEvent.click(tiles[randomIdx]);
+
+      skipPatternsDisplay(5);
+
+      fireEvent.click(tiles[wrongTileIdx]);
+
+      expect(trackEventSpy).toBeCalledTimes(1);
+      expect(trackEventSpy).toBeCalledWith({
+        event: GoogleAnalyticsEvents.GAME_END_AUTO,
+        projectTitle: PROJECT_TITLE,
+        gameScore: POINTS_PER_TILE * 4,
+      });
+    });
+
+    it('should track event on game restart', () => {
+      const wrongTileIdx = 0;
+      const randomIdx = getFakeNumber({ min: wrongTileIdx + 1, max: 8 });
+
+      jest.spyOn(random, 'getRandomNumber').mockReturnValue(randomIdx);
+
+      const trackEventSpy = jest.spyOn(ga, 'trackEvent');
+
+      render(<GameMain />);
+
+      skipCountdown();
+      skipPatternsDisplay(1);
+
+      const tiles = screen.queryAllByTestId('tile');
+
+      fireEvent.click(tiles[wrongTileIdx]);
+
+      trackEventSpy.mockClear();
+
+      const restartBtn = screen.queryByText('Play again?') as HTMLButtonElement;
+
+      fireEvent.click(restartBtn);
+
+      expect(trackEventSpy).toBeCalledTimes(1);
+      expect(trackEventSpy).toBeCalledWith({
+        event: GoogleAnalyticsEvents.GAME_RESTART,
+        projectTitle: PROJECT_TITLE,
       });
     });
   });
