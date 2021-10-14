@@ -16,7 +16,7 @@ function InfoBlock() {
       <div>
         <a href="/hashtag-interactive-website/" className={styles.companyLogo}>
           <img
-            src={getAssetUrl('/images/logo-hashtag-interactive.png')}
+            src={getAssetUrl('images/logo-hashtag-interactive.png')}
             alt="Hashtag Interactive logo"
             width="115"
             height="31"
@@ -26,7 +26,7 @@ function InfoBlock() {
       </div>
       <h1 className={styles.infoBlockTitle}>
         <img
-          src={getAssetUrl('/images/logo-holly-jolly-memory-game.png')}
+          src={getAssetUrl('images/logo-holly-jolly-memory-game.png')}
           alt="Holly Jolly Memory Game logo"
           width="459"
           height="145"
