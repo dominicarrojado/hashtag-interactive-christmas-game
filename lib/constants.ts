@@ -14,9 +14,10 @@ export const SUCCESS_TEXTS = [
 ];
 export const SUCCESS_TEXTS_COUNT = SUCCESS_TEXTS.length;
 
+export const SITE_NAME = 'Dominic Arrojado';
 export const PROJECT_TITLE = 'Holy Jolly Memory Game';
 export const MAIN_AUTHOR = 'Dominic Arrojado';
-export const MAIN_TITLE = `${PROJECT_TITLE} - ${MAIN_AUTHOR}`;
+export const MAIN_TITLE = `${PROJECT_TITLE} | ${SITE_NAME}`;
 export const MAIN_DESC =
   "Made a lot of memories this year? Then this should be right up your alley! Follow the button that lights up and repeat the same sequence to move on to the next level. Of course, it gets more challenging with every round. Think you're up for it? Aim for the highest score!";
 export const MAIN_ORIGIN = 'https://dominicarrojado.com';
