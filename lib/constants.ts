@@ -26,6 +26,8 @@ export const MAIN_URL = `${MAIN_ORIGIN}${MAIN_PATH}`;
 export const META_IMAGE = `${MAIN_URL}pages/screenshot.png`;
 export const META_IMAGE_WIDTH = 2880;
 export const META_IMAGE_HEIGHT = 1800;
+export const META_IMAGE_ALT = 'Hashtag Interactive - Holy Jolly Memory Game';
+export const META_IMAGE_TYPE = 'image/png';
 
 export const FONTS = [
   'JosefinSlab-Regular',
